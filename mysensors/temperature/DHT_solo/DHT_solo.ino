@@ -17,11 +17,17 @@ void setup() {
 }
 
 void loop() {
+  sendTemperatureAndHumidity();
+}
+
+void sendTemperatureAndHumidity() {
   delay(minimumSamplingPeriod);
-
   float temper = getTemperature(MAX_TEMPERATURE_ATTEMPTS);
+  Serial.print(temper, 1);
 
-  Serial.println(temper, 1);
+  delay(minimumSamplingPeriod);
+  float humid = getHumidity(MAX_TEMPERATURE_ATTEMPTS);
+  Serial.println(humid, 1);
 
 }
 
@@ -42,7 +48,29 @@ float getTemperature(int maxNoOfAttempt) {
       return temp;
     }
 
-    Serial.println("something went wrong...");
+    Serial.println("something went wrong during getting temperature...");
+    delay(minimumSamplingPeriod);
+  }
+
+  return -100;
+}
+/**
+   read and return temperatur. If error raised than wait required time and try it again.
+   There is max amoutn of attempt to fetch temperature.
+*/
+float getHumidity(int maxNoOfAttempt) {
+
+  for (int i = 0; i < maxNoOfAttempt; i++) {
+    float humid = dht.getHumidity();
+
+    //    Serial.print("status - ");
+    //    Serial.println(dht.getStatusString());
+
+    if ("OK" == dht.getStatusString()) {
+      return humid;
+    }
+
+    Serial.println("something went wrong during getting humidity...");
     delay(minimumSamplingPeriod);
   }
 
