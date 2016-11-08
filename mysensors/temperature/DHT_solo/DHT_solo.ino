@@ -52,7 +52,7 @@ float getTemperature(int maxNoOfAttempt) {
     delay(minimumSamplingPeriod);
   }
 
-  return -100;
+  return NULL;
 }
 /**
    read and return temperatur. If error raised than wait required time and try it again.
@@ -74,6 +74,6 @@ float getHumidity(int maxNoOfAttempt) {
     delay(minimumSamplingPeriod);
   }
 
-  return -100;
+  return NULL;
 }
 
