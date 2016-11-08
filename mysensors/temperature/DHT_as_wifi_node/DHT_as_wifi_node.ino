@@ -69,7 +69,7 @@ static const uint8_t FORCE_UPDATE_N_READS = 10;
 // Must be >1000ms for DHT22 and >2000ms for DHT11
 //static const uint64_t UPDATE_INTERVAL = 5000;
 unsigned int minimumSamplingPeriod = 3000;
-static const unsigned int TRANSMITION_INTERVAL = 20000;
+unsigned int TRANSMITION_INTERVAL = 60000;
 
 
 //float lastTemp;
@@ -106,7 +106,13 @@ void setup() {
 
   Serial.println("Humidity and temperature node starting...");
 
-  //  sleep(minimumSamplingPeriod);
+  if (TRANSMITION_INTERVAL < (3 * minimumSamplingPeriod)) {
+    TRANSMITION_INTERVAL = 3 * minimumSamplingPeriod;
+  }
+
+  Serial.print("TRANSMITION_INTERVAL: ");
+  Serial.println(TRANSMITION_INTERVAL);
+
 }
 
 void loop() {
