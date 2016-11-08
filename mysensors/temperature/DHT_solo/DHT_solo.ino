@@ -1,6 +1,7 @@
 #include "DHT.h"
 
 #define DHT22_PIN 3
+#define MAX_TEMPERATURE_ATTEMPTS 3
 
 DHT dht;
 
@@ -18,14 +19,33 @@ void setup() {
 void loop() {
   delay(minimumSamplingPeriod);
 
-  float humidity = dht.getHumidity();
-  float temperature = dht.getTemperature();
+  float temper = getTemperature(MAX_TEMPERATURE_ATTEMPTS);
 
-  Serial.print(dht.getStatusString());
-  Serial.print("\t");
-  Serial.print(humidity, 1);
-  Serial.print("\t\t");
-  Serial.println(temperature, 1);
+  Serial.println(temper, 1);
 
+}
+
+
+/**
+   read and return temperatur. If error raised than wait required time and try it again.
+   There is max amoutn of attempt to fetch temperature.
+*/
+float getTemperature(int maxNoOfAttempt) {
+
+  for (int i = 0; i < maxNoOfAttempt; i++) {
+    float temp = dht.getTemperature();
+
+    //    Serial.print("status - ");
+    //    Serial.println(dht.getStatusString());
+
+    if ("OK" == dht.getStatusString()) {
+      return temp;
+    }
+
+    Serial.println("something went wrong...");
+    delay(minimumSamplingPeriod);
+  }
+
+  return -100;
 }
 
