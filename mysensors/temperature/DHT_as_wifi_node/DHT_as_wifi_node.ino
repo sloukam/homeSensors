@@ -34,7 +34,7 @@
 // Enable debug prints
 #define MY_DEBUG
 
-#define MY_NODE_ID                  66
+#define MY_NODE_ID                  20
 //#define MY_PARENT_NODE_ID           0
 //#define MY_PARENT_NODE_IS_STATIC
 
